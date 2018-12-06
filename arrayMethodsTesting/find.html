@@ -1,0 +1,127 @@
+<script src="../simpleTest.js"></script>
+<script>
+
+function find(array, callback, optionalThisObject) {
+    var arrayLength = array.length;
+    var findCallback = callback;
+
+    if (optionalThisObject) {
+        findCallback = callback.bind(optionalThisObject);
+    }
+
+    for (var i = 0; i < array.length; i++) {
+        if (findCallback(array[i], i, array)) {
+            return array[i];
+        } 
+    }
+
+};
+
+tests({
+    'It should run the callback array.length times.': function() {
+        var counter = 0;
+        find([1], function() {
+            counter++;
+        });
+        eq(counter, 1);
+    },
+    'It should pass in the ith element as the first argument to the callback.': function() {
+        find([1], function(number) {
+            eq(number, 1);
+        });
+    },
+    'It should pass in the ith position as the second argument to the callback.': function() {
+        find([1], function(number, index) {
+            eq(index, 0);
+        });
+    },
+    'It should pass in the only array as the third argument in the callback.': function() {
+        var testArray = [1, 2, 3];
+        find(testArray, function(number, index, array) {
+            eq(array, testArray);
+        });
+    },
+    'It should accept an optionalThis object.': function() {
+        find([1], function() {
+            eq(this.description, 'I am a confirgurable this object.');
+        }, {description: 'I am a confirgurable this object.'});
+    },
+    'If element is found it should return the first true value of the element.': function() {
+        var findFirstTrueValue = find([1, 2, 3], function(element) {
+            return element > 2;
+        });     
+        eq(findFirstTrueValue, 3); 
+    },
+    'If element is not found, it should return undefined.': function() {
+        var undefinedError = find([1], function(element) {
+            return element < 1;
+        });     
+        eq(undefinedError, undefined); 
+    },
+    'It should run the callback with every index array.length - 1 times.': function() {
+        var numberOfTimesCallbackRun = 0;
+        find([1, 2, 3, 4], function() {
+            numberOfTimesCallbackRun++
+        });
+        eq(numberOfTimesCallbackRun, 4);
+    },
+    'It should run the callback with every indexes of the array, even with non assigned values.': function() { 
+        var numberOfTimesCallbackRun = 0;
+        find([, 1, , 3,], function() {
+            numberOfTimesCallbackRun++
+        });
+        eq(numberOfTimesCallbackRun, 4);
+    },
+    'It should not mutate the array on which it is called.': function() {
+        var testArray = [1, 2, 3];
+        find(testArray, function() {
+        });
+        eq(testArray[0], 1);
+        eq(testArray[1], 2);
+        eq(testArray[2], 3);   
+    },
+    'It should set the range of elements before the first invocation of the callback.': function() {
+        var testArray = [1, 2, 3];
+        var arrayLength = testArray.length;
+        var numberOfTimesCallbackRun = 0;
+        find(testArray, function(number) {
+            numberOfTimesCallbackRun++
+        });
+        eq(arrayLength, numberOfTimesCallbackRun);
+    },
+    'It should not visit appended elements to the array after the call to find begins.': function() {
+        var testArray = [1, 2, 3];
+        var numberOfTimesCallbackRun = 0; 
+        var randomNumFromOneToTen = Math.floor(Math.random() * 11);
+        find(testArray, function(number, index, array) {
+            if (index === 0) {
+                testArray.push(randomNumFromOneToTen);
+            } 
+            if (index < testArray[2]) {
+                numberOfTimesCallbackRun++;
+            }
+        });
+        eq(numberOfTimesCallbackRun, 3);
+    },
+    'If an existing, unvisited element of the array is changed by callback, its value passed to the visiting callback will be the value at the time that find visits that elements index': function() {
+        var testArray = [1, 2, 3];
+        find(testArray, function(number, index, array) {
+            if (number === 1) {
+                testArray[2] = 10;
+            }
+        });
+        eq(testArray[2], 10);
+    },
+    'It should still visit deleted elements.': function() {
+        var testArray = [1, 2, 3];
+        var numberOfTimesCallbackRun = 0
+        find(testArray, function(number, index, array) {
+            if (index === 0) {
+                delete testArray[1];
+            }
+            numberOfTimesCallbackRun++
+        });
+        eq(numberOfTimesCallbackRun, 3);
+    }
+});
+</script>
