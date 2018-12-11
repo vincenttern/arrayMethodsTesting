@@ -1,0 +1,162 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to findIndex method:
+    // function findIndex(array, callback, optionalThis) {
+    //   for (var i = 0; i < array.length; i++) {
+    //     if (callback(array[i], i, array)) {
+    //       return i;
+    //     }
+    //   }
+    // }
+
+// Function Signature:
+    // findIndex(array, callback(element[, index[, array]])[, thisArg])
+
+// Callback Parameters:
+    // element
+    // index
+    // array
+
+// Return Value:
+    // An index in the array if an element passed the test.
+    // Otherwise, -1.
+
+// Requirements:
+    // [DONE]: It should run the callback once for every array.length - 1 times.
+    // [DONE]: It should pass in the ith element as the first argument to the callback.
+    // [DONE]: It should pass in the ith position as the second argument to the callback.
+    // [DONE]: It should pass in the original array as the third arugment to the callback.
+    // [DONE]: It should accept an optionalThis object. 
+    // [DONE]: If element is found, returns that element's index.
+    // [DONE]: If element is not found, returns -1.
+    // [DONE]: If array.length === 0, returns -1. 
+    // [DONE]: It should still run callback for indexes of entries not present in the array.
+    // [DONE]: It should set range.length before the first invocation of callback. 
+    // [DONE]: It should not run elements appended to the array after findIndex begins.
+    // [DONE]: If an existing, unvisited element of the array is changed by callback, its value passed to the callback will be the value at the time that findIndex visits that element's index.
+    // [TODO]: It should still run deleted elements. 
+
+
+function findIndex(array, callback, optionalThisObject) {
+    var findIndexCallback = callback;
+    var arrayLength = array.length;
+    var negativeOne = -1;
+    if (optionalThisObject) {
+        findIndexCallback = callback.bind(optionalThisObject);
+    }
+
+    if (arrayLength === 0) {
+        return negativeOne;
+    }
+
+    for (var i = 0; i < arrayLength; i++) {
+        if (findIndexCallback(array[i], i, array)) {
+            return i;
+        } 
+    }
+    return negativeOne;
+    
+};
+
+tests({
+    'It should run the callback once for every array.length - 1 times.': function() {
+        var numberOfTimeCallbackHasRun = 0;
+        findIndex([1, 5, 10], function() {
+            numberOfTimeCallbackHasRun++;
+        });
+        eq(numberOfTimeCallbackHasRun, 3);
+    },
+    'It should pass in the ith element as the first argument to the callback.': function() {
+        findIndex([1], function(element) {
+            eq(element, 1);
+        });
+    },
+    'It should pass in the ith position as the second argument to the callback.': function() {
+        findIndex([1], function(element, index) {
+            eq(index, 0);
+        });
+    },
+    'It should pass in the only array as the third arugment to the callback.': function() {
+        var testArray = [1, 5, 10];
+        findIndex(testArray, function(element, index, array) {
+            eq(array, testArray);
+        });
+    },
+    'It should accept an optionalThis object.': function() {
+        findIndex([1, 5, 10], function() {
+            eq(this.description, 'I am a confirgurable this object.');
+        }, {description: 'I am a confirgurable this object.'});
+    },
+    'If element is found, returns that elements index.': function() {
+        var findIndexArray = findIndex([1, 5, 10], function(element, index, array) {
+            return element > 6;
+        });
+        eq(findIndexArray, 2);
+    },
+    'If element is not found, returns -1.': function() {
+        var findIndexArray = findIndex([1, 5, 10], function(element, index, array) {
+            return element > 10;
+        });
+        eq(findIndexArray, -1);
+    },
+    'If array.length === 0, returns -1.': function() {
+        var findIndexArray = findIndex([], function(element, index, array) {});
+        eq(findIndexArray, -1);
+    },
+    'It should still run callback for indexes of entries not present in the array.': function() {
+        // debugger;
+        var numberOfTimeCallbackHasRun = 0;
+        findIndex([1, , 10], function(element, index, array) {
+            numberOfTimeCallbackHasRun++;
+        });
+        eq(numberOfTimeCallbackHasRun, 3);
+    },
+    'It should set range.length before the first invocation of callback.': function() {
+        var testArray = [1, 5, 10];
+        var arrayLength = testArray.length;
+        var numberOfTimeCallbackHasRun = 0;
+        findIndex(testArray, function(element, index, array) {
+            numberOfTimeCallbackHasRun++;
+        });
+        eq(arrayLength, numberOfTimeCallbackHasRun);
+    },
+    'It should not run elements appended to the array after findIndex begins.': function() {
+        debugger;
+        var testArray = [1, 5, 10];
+        var numberOfTimesCallbackRun = 0; 
+        var randomNumFromOneToTen = Math.floor(Math.random() * 11);
+        findIndex(testArray, function(element, index, array) {
+            if (index === 0) {
+                testArray.push(randomNumFromOneToTen);
+            } 
+            if (index < testArray[2]) {
+                numberOfTimesCallbackRun++;
+            }
+        });
+        eq(numberOfTimesCallbackRun, 3);
+    },
+    'If an existing, unvisited element of the array is changed by callback, its value passed to the callback will be the value at the time that findIndex visits that elements index.': function() {
+        var testArray = [1, 5, 10];
+        var numberOfTimesCallbackRun = 0; 
+        findIndex(testArray, function(element, index, array) {
+            if (index === 0) {
+                testArray[1] = 7;
+            }
+        });
+        eq(testArray[1], 7);
+    },
+    'It should still run deleted elements.': function() {
+        var testArray = [1, 5, 10];
+        var numberOfTimeCallbackHasRun = 0;
+        findIndex(testArray, function(element, index, array) {
+            if (index === 0) {
+                delete testArray[1];
+            }
+            numberOfTimeCallbackHasRun++;
+        });
+        eq(numberOfTimeCallbackHasRun, 3);
+    }
+}); 
+
+</script>
