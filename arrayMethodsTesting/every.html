@@ -1,7 +1,7 @@
 <script src="..//simpleTest.js"></script>
 <script>
 
-// Prototype implementation - Core logic to every method:
+// Prototype implementation - Core logic to [every] method:
     // function every(array, callback, optionalThisObject) {
     //     var arrayLength = array.length;
     //     for (var i = 0; i < arrayLength; i++) {
@@ -107,7 +107,7 @@ tests({
         });
         eq(everyArray, true);
     },
-    'It should not invoke deleted indexes.': function() {
+    'It should not run callback on deleted indexes.': function() {
         var numberOfTimeCallbackHasRun = 0;
         var everyArray = every([1, 2, 3], function(element, index, array) {
             if (index === 0) {
@@ -119,7 +119,7 @@ tests({
         eq(everyArray, true);
         eq(numberOfTimeCallbackHasRun, 2);
     },
-    'It should not invoke unassigned values.': function() {
+    'It should not run callback on unassigned values.': function() {
         var testArray = [1, , 3];
         var everyArray = every(testArray, function(element, index, array) {
             return element > 0;
@@ -140,14 +140,10 @@ tests({
     },
     'It should set range.length before the first invocation of callback.': function() {
         var testArray = [1, 2 , 3];
-        var numberOfTimeCallbackHasRun = 0;
         var arrayLength = testArray.length;
-        var everyArray = every(testArray, function(element, index, array) {
-            numberOfTimeCallbackHasRun++;
-            return element > 0;
+        every(testArray, function(element, index, array) {
+            eq(arrayLength, 3);
         });
-        eq(everyArray, true);
-        eq(arrayLength, numberOfTimeCallbackHasRun);
     },
     'It should not run appended elements to the array after the call to every begins.': function() {
         var testArray = [1, 2 , 3];
@@ -168,7 +164,7 @@ tests({
         eq(numberOfTimeCallbackHasRun, 3);
     },
     'If existing elements of the array are changed, their value as passed to callback will be the value at the time every visits them.': function() {
-        var testArray = [1, 2 , 3];
+        var testArray = [1, 2, 3];
         var numberOfTimeCallbackHasRun = 0;
         var everyArray = every(testArray, function(element, index, array) {
             if (index === 0) {

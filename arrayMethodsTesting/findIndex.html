@@ -1,7 +1,7 @@
 <script src="..//simpleTest.js"></script>
 <script>
 
-// Prototype implementation - Core logic to findIndex method:
+// Prototype implementation - Core logic to [findIndex] method:
     // function findIndex(array, callback, optionalThis) {
     //   for (var i = 0; i < array.length; i++) {
     //     if (callback(array[i], i, array)) {
@@ -146,7 +146,7 @@ tests({
         });
         eq(testArray[1], 7);
     },
-    'It should still run deleted elements.': function() {
+    'It should still run on deleted elements.': function() {
         var testArray = [1, 5, 10];
         var numberOfTimeCallbackHasRun = 0;
         findIndex(testArray, function(element, index, array) {
