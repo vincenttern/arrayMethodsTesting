@@ -48,7 +48,7 @@ function reduce(array, callback, initialValue) {
 
         // We want to skip holes at the beginning of the array.
         while (startingIndex in array === false && startingIndex < length) {
-            startingIndex++
+            startingIndex++;
         }
 
         resultSoFar = array[startingIndex];
@@ -119,7 +119,6 @@ tests({
             eq(currentIndex, 1);
         });
     },
-
     'If initialValue, and array is empty, return initialValue without calling callback.': function () {
         var initialValue = 0;
         var reduceResult = reduce([,,], function() {}, initialValue);
