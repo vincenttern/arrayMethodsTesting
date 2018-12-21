@@ -1,0 +1,160 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [some] method:
+    
+    // function concat() {
+    //     var newArray = [];
+    //     var totalOfArguments = arguments.length;
+
+    //     for (var i = 0; i < totalOfArguments; i++) {  
+    //         var nthPositionOfArgument = arguments[i];
+    //         for (var j = 0; j < nthPositionOfArgument.length; j++) {
+    //             if (Array.isArray(nthPositionOfArgument[j])) {
+    //                 nthPositionOfArgument[j].forEach(function(element) {
+    //                 newArray.push(element);
+    //                 })
+    //             } else {
+    //                 newArray.push(nthPositionOfArgument[j]);
+    //             }   
+    //         }   
+    //     }
+    //     return {
+    //         newArray: newArray,
+    //         arguments: arguments
+    //     }
+    // }
+
+// Function Signature:
+    // concat([array1[, array2[, ...[, valueN]]]])
+
+// Parameters:
+    // valueN 
+        // Arrays and/or values to concatenate into a new array. If valueN is undefined, concat returns a shallow copy of 
+        // the existing array on which it is called. See the description below for more details.
+
+// Return Value:
+    // A new array.
+
+// Requirements:
+
+    // [DONE]: It should return a new array.
+    // [DONE]: It should pass in multiple arrays and/or values in the parameters to concatenate into a new array.
+    // [DONE]: If only one array object is pass in the arugment, return that only array.
+    // [DONE]: It should not recurse into nested array arguments.
+
+    // [DONE]: It should not alter this.
+    // [DONE]: It should not alter any of the arrays provided as arguments.
+    // [DONE]: It should copy object references into the new array, both the original and new array refer to the same object.
+    // [DONE]: If referenced object is modified, the changes are visible to both the new and original arrays.[TODO// This includes elements of array arguments that are also array.
+    // [DONE]: It should copies the values of strings and numbers into the new array. 
+    // [DONE]: It should not modify original arrays when new array is operated.
+
+function concat() {
+    var newArray = [];
+    var totalOfArguments = arguments.length;
+
+    // Loop through numbers of arguments.
+    for (var i = 0; i < totalOfArguments; i++) {  
+        var nthPositionOfArgument = arguments[i];
+
+        // Loop through every value in each argument.
+        for (var j = 0; j < nthPositionOfArgument.length; j++) {
+
+            // Check if there is any nested array.
+            if (Array.isArray(nthPositionOfArgument[j])) {
+
+                // If nested array it will go inside it and push element to newArray.
+                nthPositionOfArgument[j].forEach(function(element) {
+                newArray.push(element);
+                })
+
+                // If no nested array it will just add value to newArray.
+            } else {
+                newArray.push(nthPositionOfArgument[j]);
+            }   
+        }   
+    }
+
+    // Put return values in an object to be access.
+    return {
+        newArray: newArray,
+        arguments: arguments
+    }
+}
+
+tests({
+    'It should return a new array.': function() {
+        var concatArrayMethod = concat([1, 2], [3, 4]);
+        eq(concatArrayMethod.newArray.length, 4);
+        eq(concatArrayMethod.newArray[0], 1);
+        eq(concatArrayMethod.newArray[1], 2);
+        eq(concatArrayMethod.newArray[2], 3);
+        eq(concatArrayMethod.newArray[3], 4);
+    },
+    'It should pass in multiple arrays and/or values in the parameters to concatenate into a new array.': function() {
+        var concatArrayMethod = concat([1, 2], [3, 4]);
+        eq(Array.isArray(concatArrayMethod.arguments[0]), true);
+        eq(Array.isArray(concatArrayMethod.arguments[1]), true);
+    },
+    'It should return only array if one array object or value is pass in the parameter.': function() {
+        var concatArrayMethod = concat([1, 2]);
+        eq(concatArrayMethod.newArray.length, 2);
+        eq(concatArrayMethod.newArray[0], 1);
+        eq(concatArrayMethod.newArray[1], 2);
+    },
+    'It should not recurse into nested array arguments.': function() {
+        var concatArrayMethod = concat([1, 2], [3, [4, 5]]);
+        eq(Array.isArray(concatArrayMethod.newArray[0]), false);
+        eq(Array.isArray(concatArrayMethod.newArray[1]), false);
+        eq(Array.isArray(concatArrayMethod.newArray[2]), false);
+        eq(Array.isArray(concatArrayMethod.newArray[3]), false);
+        eq(Array.isArray(concatArrayMethod.newArray[4]), false);
+    },
+    'It should not alter this.': function() {
+        var concatArrayMethod = concat([1, 2], [3, 4], this);
+        eq(concatArrayMethod.arguments[2], this);
+    },
+    'It should not alter any of the arrays provided as arguments.': function() {
+        var array1 = [1, 2];
+        var array2 = [3, 5];
+        var concatArrayMethod = concat(array1, array2);
+        eq(array1, concatArrayMethod.arguments[0]);
+        eq(array2, concatArrayMethod.arguments[1]);
+    },
+    'It should copy object references into the new array, both the original and new array refer to the same object.': function() {
+       
+        var array1 = [1, 2];
+        var array2 = [3];
+        var concatArrayMethod = concat(array1, array2);
+        eq(concatArrayMethod.newArray[0] === array1[0], true);
+        eq(concatArrayMethod.newArray[1] === array1[1], true);
+        eq(concatArrayMethod.newArray[2] === array2[0], true);
+    },
+    'If a referenced object is modified, the changes are visible to both the new and original arrays.': function() {
+        var array1 = [1];
+        var array2 = [3];
+        array1.push(100);
+        var concatArrayMethod = concat(array1, array2);
+        eq(concatArrayMethod.newArray[0] === array1[0], true);
+        eq(concatArrayMethod.newArray[1] === array1[1], true);
+        eq(concatArrayMethod.newArray[2] === array2[0], true);
+    },
+    'It should copy the values of strings into the new array.': function() {
+        var concatArrayMethod = concat([1], ['I should be copied in the new array.', 2]);
+        eq(concatArrayMethod.newArray.indexOf('I should be copied in the new array.'), true);
+    },
+    'It should not modify original arrays when new array is operated.': function() {
+        debugger;
+        var array1 = [1];
+        var array2 = [3];
+        var concatArrayMethod = concat(array1, array2);
+        concatArrayMethod.newArray.push(100);
+        eq(array1.length, 1);
+        eq(array2.length, 1);
+        eq(array1[0], 1);
+        eq(array2[0], 3);
+        
+    }
+})
+</script>

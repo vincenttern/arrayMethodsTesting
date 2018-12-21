@@ -67,17 +67,17 @@ function some(array, callback, optionalThisObject) {
 }
 
 tests({
-    'It should pass the ith element as the first argument to the callback.': function() {
+    'It should pass in the ith element as the first argument to the callback.': function() {
         some([1], function(element) {
             eq(element, 1);
         });
     },
-    'It should pass the ith position as the second argument to the callback.': function() {
+    'It should pass in the ith position as the second argument to the callback.': function() {
         some([1], function(element, index) {
             eq(index, 0);
         });
     },
-    'It should pass the only array as the third arugment to the callback.': function() {
+    'It should pass in the only array as the third arugment to the callback.': function() {
         var testArray = [1, 2, 3];
         some(testArray, function(element, index, array) {
             eq(array, testArray);
@@ -174,11 +174,7 @@ tests({
             }
         });
         eq(testArray[1], 10);
-    }
-
-
-    // [TODO]: If existing elements of the array are changed, their value as passed to callback will be the value at the time every visits them.
-    // [TODO]: It should return true if the array is empty.
+    },
 });
 
 
