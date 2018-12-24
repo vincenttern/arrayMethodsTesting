@@ -1,0 +1,111 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [some] method:
+    
+    // function indexOf(arrayToBeSearch, elementToFind, indexToStartSearch) {
+
+    // var startSearch = 0;
+    // var arrayLength = arrayToBeSearch.length;
+
+    // if (arguments.length === 3) {
+    //   if (indexToStartSearch >= arrayLength) {
+    //     return -1;
+    //   }
+    //   if (indexToStartSearch >= 0) {
+    //     startSearch = indexToStartSearch;
+    //   } else {
+    //     startSearch = arrayLength + (indexToStartSearch);
+    //   }
+    // }
+
+    // for (var i = startSearch; i < arrayLength; i++) {
+    //   if (arrayToBeSearch[i] === elementToFind) {
+    //     return i;
+    //   }
+    // }
+    // return -1;
+
+    // }
+
+    // var array = ['sam', 'vincent', 'tim', 'ashley', 'mark'];
+    // console.log(indexOf(array, 'ashley', 1));
+    // console.log(indexOf(array, 'ashley'));  
+    // console.log(indexOf(array, 'ashley', -1));  
+    // console.log(indexOf(array, 'vincent', -5));
+
+    
+// Function Signature:
+    // indexOf(array, elementToFind[, optionalIndexToStartSearch])
+
+// Parameters:
+
+    // array
+    // elementToFind
+    // optionalIndexToStartSearch
+
+// Return Value:
+    // The first index of the element in the array. 
+    // Otherwise, -1 if not found.
+
+// Requirements:
+    // [DONE]: If optionalIndexToStartSearch >= array.length, return -1 and the array will not be search.
+    // [DONE]: If the provided value to optionalIndexToStartSearch is a negative number, it is taken as the offset from the end of the array.
+    // [DONE]: If the provided index is 0, then the whole array will be searched.
+    // [DONE]: It element is found, it should return the first index of the element in the array.
+    // [DONE]: It element is not found, return -1.
+
+function indexOf(array, elementToFind, optionalIndexToStartSearch) {
+    var arrayLength = array.length;
+    var startSearch = 0;
+
+    // If there are 3 arguments than there is a number for optionalIndexToStartSearch.
+    if (arguments.length === 3) {
+
+        // If optionalIndexToStartSearch >= array.length than return -1.
+        if (optionalIndexToStartSearch >= arrayLength) {
+            return -1;
+        }
+
+        // If optionalIndexToStartSearch >= 0 then the start of the search start from front to back.
+        if (optionalIndexToStartSearch >= 0) {
+            startSearch = optionalIndexToStartSearch;
+
+        // If optionalIndexToStartSearch < 0 then the start of the search will start at arrayLength + (optionalIndexToStartSearch). 
+        } else {
+            startSearch = arrayLength + (optionalIndexToStartSearch);
+        }
+    }
+
+    for (var i = startSearch; i < arrayLength; i++) {
+        if (array[i] === elementToFind) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+tests({
+    'If optionalIndexToStartSearch >= array.length, return -1 and the array will not be search.': function() {
+        var indexOfMethod = indexOf(['vincent', 'sam', 'james'], 'james', 3);
+        eq(indexOfMethod, -1);
+    },
+    'If the provided value to optionalIndexToStartSearch is a negative number, it is taken as the offset from the end of the array.': function() {
+        var indexOfMethod = indexOf(['vincent', 'sam', 'james'], 'james', -2);
+        eq(indexOfMethod, 2);
+    },
+    'If the provided index is 0, then the whole array will be searched.': function() {
+        var indexOfMethod = indexOf(['vincent', 'sam', 'james'], 'james', 0);
+        eq(indexOfMethod, 2);
+    },
+    'It element is found, it should return the first index of the element in the array.': function() {
+        var indexOfMethod = indexOf(['vincent', 'sam', 'james'], 'james');
+        eq(indexOfMethod, 2);
+    },
+    'It element is not found, return -1.': function() {
+        var indexOfMethod = indexOf(['vincent', 'sam', 'james'], 'tim');
+        eq(indexOfMethod, -1);
+    }
+});
+
+</script>

@@ -1,7 +1,7 @@
 <script src="..//simpleTest.js"></script>
 <script>
 
-// Prototype implementation - Core logic to [some] method:
+// Prototype implementation - Core logic to [concat] method:
     
     // function concat() {
     //     var newArray = [];
@@ -145,7 +145,6 @@ tests({
         eq(concatArrayMethod.newArray.indexOf('I should be copied in the new array.'), true);
     },
     'It should not modify original arrays when new array is operated.': function() {
-        debugger;
         var array1 = [1];
         var array2 = [3];
         var concatArrayMethod = concat(array1, array2);
