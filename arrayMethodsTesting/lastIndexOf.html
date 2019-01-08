@@ -1,0 +1,102 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [lastIndexOf] method:
+    
+    // function lastIndexOf(string, searchValue) {
+
+    // for (var i = string.length - 1; i >= 0 ; i--) {
+    //     if (string[i] === searchValue) {
+    //     return i;
+    //     }
+
+    // }
+    // return -1;
+    // }
+
+    // lastIndexOf('canal', 'a');
+
+    
+// Function Signature:
+    // lastIndexOf(string, searchValue[, optionalIndexToStartSearch])
+
+// Parameters:
+    // string
+    // searchValue
+    // optionalIndexToStartSearch
+
+// Return Value:
+    // index of the last occurrence of the specified value.
+    // otherwise, -1 if not found.
+
+// Requirements:
+
+    // [DONE]: It should search backwards until last occurrence of searchValue is found, then return the index of it. 
+    // [DONE]: It should search backwards until last occurrence of searchValue is found, if not return - 1.
+    // [DONE]: If optionIndexToStartSearch and searchValye is an empty string, return optionIndexToStartSearch.
+    // [DONE]: If no optionIndexToStartSearch and searchValye is an empty string, return string.length.
+    // [DONE]: If optionIndexToStartSearch, search will start at the value of optionIndexToStartSearch and will search backwards.  
+    // [DONE]: If optionIndexToStartSearch >= string.length, the whole string is searched.
+    // [DONE]: If optionIndexToStartSearch < 0, then startOfSearch is 0.
+
+    
+
+function lastIndexOf(string, searchValue, optionIndexToStartSearch){
+    var startOfSearch = string.length - 1;
+
+    if (arguments.length === 3) {
+        if (searchValue === '') {
+            return optionIndexToStartSearch;
+        }
+        startOfSearch = optionIndexToStartSearch;
+    } else {
+        if (arguments.length === 2 && searchValue === '') {
+            return string.length;
+        }
+    }
+
+    if (optionIndexToStartSearch < 0) {
+        startOfSearch = 0;
+    }
+
+    for (var i = startOfSearch; i >= 0; i--) {
+        if (string[i] === searchValue) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+tests({
+    'It should search backwards until last occurrence of searchValue is found, then return the index of it.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', 'a');
+        eq(returnLastIndexOf, 3);
+    },
+    'It should search backwards until last occurrence of searchValue is found, if not return - 1.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', 'r');
+        eq(returnLastIndexOf, -1);
+    },
+    'If optionIndexToStartSearch and searchValye is an empty string, return optionIndexToStartSearch.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', '', 2);
+        eq(returnLastIndexOf, 2);
+    },
+    'If no optionIndexToStartSearch and searchValye is an empty string, return string.length.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', '');
+        eq(returnLastIndexOf, 5);
+    },
+    'If optionIndexToStartSearch, search will start at the value of optionIndexToStartSearch and will search backwards.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', 'a', 2);
+        eq(returnLastIndexOf, 1);
+    },
+    'If optionIndexToStartSearch >= string.length, the whole string is searched.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', 'a', 6);
+        eq(returnLastIndexOf, 3);
+    },
+    'If optionIndexToStartSearch < 0, then startOfSearch is 0.': function() {
+        var returnLastIndexOf = lastIndexOf('canal', 'c', -2);
+        eq(returnLastIndexOf, 0);
+    }
+
+});
+
+</script> 
