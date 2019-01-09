@@ -1,0 +1,94 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [includes] method:
+    
+    // function lastIndexOf(string, searchValue) {
+
+    // for (var i = string.length - 1; i >= 0 ; i--) {
+    //     if (string[i] === searchValue) {
+    //     return i;
+    //     }
+
+    // }
+    // return -1;
+    // }
+
+    // lastIndexOf('canal', 'a');
+
+    
+// Function Signature:
+    // includes(array, valueToFind[, optionalIndexToStartSearch])
+
+// Parameters:
+    // array
+    // valueToFind
+    // optionalIndexToStartSearch
+
+// Return Value:
+    // true if valueToFind is found
+    // othewise, false
+
+// Requirements:
+
+    // [DONE]: It should return true if valueToFind is found.
+    // [DONE]: It should return false if valueToFind is not found.
+    // [DONE]: If optionIndexToStartSearch >= array.length, return false without searching the array.
+    // [DONE]: If optionIndexToStartSearch is negative, it should be used as the offset from the end of the array, computing a new value for optionIndexToStartSearch.
+    // [DONE]: If optionIndexToStartSearch is negative, and the new computed value of optionIndexToStartSearch <= 0, the entire array will be searched.
+    // [DONE]: It should return true if array have NaN and is searching for NaN.
+
+function includes(array, valueToFind, optionIndexToStartSearch) {
+    var arrayLength = array.length;
+    var startSearch = 0;
+
+    // Check if there is an optional third parameter.
+    if (arguments.length === 3) {
+
+        // Want to return false without searching the array if optionIndexToStartSearch >= arrayLength.
+        if (optionIndexToStartSearch >= arrayLength) {
+            return false;
+        } 
+
+        if (optionIndexToStartSearch <= 0) {
+            startSearch = arrayLength + optionIndexToStartSearch;
+        }
+    }
+
+    for (var i = startSearch; i < arrayLength; i++) {
+        if (array[i] === valueToFind || isNaN(array[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+tests({
+    'It should return true if valueToFind is found.': function() {
+        var returnIncludeValue = includes([1, 2, 3], 2);
+        eq(returnIncludeValue, true);
+    },
+    'It should return false if valueToFind is not found.': function() {
+        var returnIncludeValue = includes([1, 2, 3], 4);
+        eq(returnIncludeValue, false);
+    },
+    'If optionIndexToStartSearch >= array.length, return false without searching the array.': function() {
+        var returnIncludeValue = includes([1, 2, 3], 2, 4);
+        eq(returnIncludeValue, false);
+    },
+    'If optionIndexToStartSearch is negative, it should be used as the offset from the end of the array, computing a new value for optionIndexToStartSearch.': function() {
+        var returnIncludeValue = includes([1, 2, 3], 1, -2);
+        eq(returnIncludeValue, false);
+    },
+    'If optionIndexToStartSearch is negative, and the new computed value of optionIndexToStartSearch <= 0, the entire array will be searched.': function() {
+        var returnIncludeValue = includes([1, 2, 3], 1, -2);
+        eq(returnIncludeValue, false);
+    },
+    'It should return true if array have NaN and is searching for NaN.': function() {
+        debugger;
+        var returnIncludeValue = includes([1, 2, NaN], NaN);
+        eq(returnIncludeValue, true);
+    }
+});
+
+</script> 
