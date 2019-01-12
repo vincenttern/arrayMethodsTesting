@@ -1,0 +1,197 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [slice] method:
+    
+    // function slice(array, beginSelection, endSelection) {
+    //   var arrayLength = array.length;
+    //   var newArray = [];
+
+    //   if (beginSelection > arrayLength) {
+    //     return newArray;
+    //   }
+
+    //   if (beginSelection === undefined || beginSelection === 0) {
+    //     beginSelection = 0;
+    //   }
+
+    //   if (beginSelection < 0) {
+    //     beginSelection = arrayLength + (beginSelection);
+    //   }
+
+    //   if (arguments.length === 3) {
+    //     if (endSelection < 0) {
+    //       endSelection = endSelection + arrayLength;
+    //     }
+    //   } else {
+    //     endSelection = arrayLength;
+    //   }
+
+    //   for (var i = beginSelection; i < endSelection; i++) {
+    //     if (i < arrayLength) {
+    //       newArray.push(array[i])
+    //     }
+    //   }
+    //   return newArray;
+    // }
+
+    // slice([1, 2, 3, 4, 5], 3, -1);
+    
+// Function Signature:
+    // slice(array, begin[, end])
+
+// Parameters:
+    // array
+    // beingSelection
+    // endSelection
+
+// Return Value:
+    // a new array containing the extracted elements.
+
+// Requirements:
+
+    // [DONE]: It should not alter original array.
+    // [DONE]: It should return new array with shallow copy of elements from the original array.
+    // [DONE]: If a referenced object changes, the changes are visible to both the new and original arrays.
+    // [DONE]: It should copy numbers values into the new array.
+    // [DONE]: It should copy strings values into the new array.
+    // [DONE]: It should copy booloeans values into the new array.
+    // [DONE]: It should be alble to pass a negative number to beginSelection, indicating an offset from the end of the sequence. E.g. slice([1,2,3], -2) extracts the last two elements in the sequence.
+    // [DONE]: If beginSelection is undefined, slice begins from index 0.
+    // [DONE]: If beginSelection is greater than the length of the sequence, an empty array is returned.
+    // [DONE]: It should return selected values from beginSelection to the index of the value to endSelection but not including it.
+    // [DONE]: If endSelection is a negative number, that will indicate an offset from the end of the sequence. E.g. slice([1,2, 3, 4], 2,-1) will extract 3.
+    // [DONE]: If no endSelectin, return extraction through the end of the array.length.
+    // [DONE]: If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length).
+    // [TODO]: It should not affect other array if string, number, or boolean are changed.
+    // [TODO]: If a new element is added to either array, the other array is not affected.
+
+
+function slice(array, beginSelection, endSelection) {
+    var arrayLength = array.length;
+    var newArray = [];
+
+    if (beginSelection > arrayLength) {
+        return newArray;
+    }
+
+    // Check if the value for beginSelection is undefined or 0, and set beginSelection to 0.
+    if (beginSelection === undefined || beginSelection === 0) {
+        beginSelection = 0;
+    }
+
+    // Check if the value for beginSelection is a negative number, and compute it to be a new number. 
+    if (beginSelection < 0) {
+        beginSelection = arrayLength + (beginSelection);
+    }
+
+    // Check if beginSelection exist.
+    if (arguments.length === 3) {
+        if (endSelection < 0) {
+            endSelection = endSelection + arrayLength;
+        } 
+        if (endSelection === 'undefined' || endSelection > arrayLength) {
+            endSelection = arrayLength;
+        }
+    } else {
+        endSelection = arrayLength;
+    }
+
+    for (var i = beginSelection; i < endSelection; i++) {
+        if (i < arrayLength) {
+            newArray.push(array[i]);
+        }
+    }
+    return newArray;
+}
+
+tests({
+    'It should not alter original array.': function() {
+        var originalArray = [1, 2, 3];
+        var returnSlice = slice(originalArray, 1);
+        eq(originalArray.length, 3);
+        eq(parseInt(originalArray), parseInt([1, 2, 3]));
+    },
+    'It should return new array with shallow copy of elements from the original array.': function() {
+        var originalArray = [1, 2, 3];
+        var returnSlice = slice(originalArray, 1);
+        eq(returnSlice[0], 2);
+        eq(returnSlice[1], 3);
+    },
+    'If a referenced object changes, the changes are visible to both the new and original arrays.': function() {
+        var originalArray = [1, 2, 3];
+        var returnSlice = slice(originalArray, 1);
+        eq(returnSlice[0], 2);
+        eq(returnSlice[1], 3);
+        originalArray[2] = 10;
+        var returnSlice = slice(originalArray, 1);
+        eq(originalArray[0], 1);
+        eq(originalArray[1], 2);
+        eq(originalArray[2], 10);
+        eq(returnSlice[0], 2);
+        eq(returnSlice[1], 10);
+    },
+    'It should copy number values from originalArray into the new array.': function() {
+        var originalArray = [1];
+        var returnSlice = slice(originalArray);
+        eq(Number.isInteger(returnSlice[0]), true);
+    },
+    'It should copy strings values into the new array.': function() {
+        var originalArray = ['string'];
+        var returnSlice = slice(originalArray);
+        eq(typeof returnSlice[0] === 'string', true);
+    },
+    'It should copy booloeans values into the new array.': function () {
+        var originalArray = [true];
+        var returnSlice = slice(originalArray);
+        eq(typeof returnSlice[0] === 'boolean', true);
+    },
+    'It should be alble to pass a negative number to beginSelection, indicating an offset from the end of the sequence. E.g. slice([1,2,3], -2) extracts the last two elements in the sequence.': function () {
+        var originalArray = [1, 2, 3, 4];
+        var returnSlice = slice(originalArray, -2);
+        eq(returnSlice[0], 3);
+        eq(returnSlice[1], 4);
+    },
+    'If beginSelection is undefined, slice begins from index 0.': function () {
+        var originalArray = [1];
+        var returnSlice = slice(originalArray, );
+        eq(returnSlice[0], 1);
+    },
+    'If begin is greater than the length of the sequence, an empty array is returned.': function () {
+        var originalArray = [1];
+        var returnSlice = slice(originalArray, 2);
+        eq(returnSlice.length === 0, true);
+    },
+    'It should return selected values from beginSelection to the index of the value to endSelection but not including it.': function () {
+        var originalArray = [1, 2, 3, 4];
+        var returnSlice = slice(originalArray, 1, 3);
+        eq(returnSlice[0], 2);
+        eq(returnSlice[1], 3);
+    },
+    'If endSelection is a negative number, that will indicate an offset from the end of the sequence. E.g. slice([1,2, 3, 4], 2,-1) will extract 3.': function () {
+        var originalArray = [1, 2, 3, 4];
+        var returnSlice = slice(originalArray, 2, -1);
+        eq(returnSlice[0], 3);
+    },
+    'If no endSelectin, return extraction through the end of the array.length.': function () {
+        var originalArray = [1];
+        var returnSlice = slice(originalArray, 0, );
+        eq(returnSlice[0], 1);
+    },
+    'If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length).': function () {
+        var originalArray = [1, 2];
+        var returnSlice = slice(originalArray, 1, 4);
+        eq(returnSlice[0], 2);
+    },
+    'It should be able to convert array-like-objects to new array.': function () {
+        var arrayLikeObjects = {
+            0: 1,
+            1: 2,
+            length: 2
+        };
+        var returnSlice = slice(arrayLikeObjects);
+        eq(returnSlice[0], 1);
+        eq(returnSlice[1], 2);
+    }
+});
+</script> 
