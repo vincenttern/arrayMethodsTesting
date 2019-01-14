@@ -1,0 +1,125 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [join] method:
+    
+    // function join(array, separatorType) {
+    //   var result = "";
+    //   var seperatorType = separatorType;
+
+    //   if (arguments.length === 1) {
+    //     seperatorType = ',';
+    //   }
+    
+    //   for (var i = 0; i < array.length; i++) {
+    //     result += array[i];
+    //     if (i < array.length - 1) {
+    //       result += seperatorType;
+    //     }
+    //   }
+    //   return result;
+    // }
+
+    // join(["Vincent", "ball", "ran"], '-');
+
+    
+// Function Signature:
+    // join(array[ separator])
+
+// Parameters:
+    // array
+    // separator
+
+// Return Value:
+    // A string with all array elements joined. >>> "string, string, string"
+    // Empty string, if array.length === 0.
+
+// Requirements:
+
+    // [DONE]: It should return a string.
+    // [DONE]: It should return a string of all array elements concatenated with an separatorType. 
+    // [DONE]: It should return a string with array-like object.
+    // [DONE]: If no separator it should return a string with all array element seperated by commas.
+    // [DONE]: If separator and is an empty string, return a string with all array elements concatenated without any characters in between them.
+    // [DONE]: If array.length === 0, return empty string.
+    // [DONE]: If elements are undefined or null, return them as an empty string.
+    // [DONE]: If separator is not a string, it should convert it into a string.
+    // [DONE]: If array.length > 1 return a string with all array elements seperated by separatorType.
+
+function join(array, separator) {
+    var arrayLength = array.length
+    var result = "";
+    var separatorType = separator;
+
+    if (arrayLength === 0) {
+        return result;
+    }
+
+    if (arguments.length === 1) {
+        separatorType = ',';
+    }
+
+    if (separatorType !== null || separatorType !== undefined) {
+        separatorType = String(separatorType);
+       
+    }
+
+    for (var i = 0; i < arrayLength; i++) {
+        if (array[i] === null || array[i] === undefined) {
+            array[i] = '';
+        }
+        result += array[i];
+        if (i < arrayLength - 1) {
+            result += separatorType;
+        }
+    }
+    return result;
+}
+
+tests({
+    'It should return a string.': function() {
+        var returnJoinString = join(['Vin', 'Sa']);
+        eq(typeof returnJoinString, 'string');
+    },
+    'It should return a string of all array elements concatenated with an separatorType.': function() {
+        var returnJoinString = join(['Vin', 'Sa']);
+        eq(returnJoinString, 'Vin,Sa');
+    },
+    'If no separator it should return a string with all array element seperated by commas.': function() {
+        var returnJoinString = join(['Vin', 'Sa']);
+        eq(returnJoinString, 'Vin,Sa');
+    },
+    'If separator and is an empty string, return a string with all array elements concatenated without any characters in between them.': function() {
+        var returnJoinString = join(['Vin', 'Sa'], '');
+        eq(returnJoinString, 'VinSa');
+    },
+    'If separator is not a string, it should convert it into a string.': function() {
+        var returnJoinString = join(['Vin', 'Sa'], true);
+        eq(returnJoinString, 'VintrueSa');
+    },
+    'If array.length === 0, return empty string.': function() {
+        var returnJoinString = join([]);
+        eq(returnJoinString, '');
+    },
+    'If elements are undefined or null, return them as an empty string.': function() {
+        var returnJoinString = join([undefined, null]);
+        eq(returnJoinString, ',');
+    },
+    'If array.length > 1 return a string with all array elements seperated by separatorType.': function() {
+        var returnJoinString = join(['Vin', 'Sa'], '-');
+        eq(returnJoinString, 'Vin-Sa');
+    },
+    'It should return a string with array-like object.': function() {
+        var arrayLikeObject = {
+            0: 1,
+            1: 2,
+            length: 2
+        };
+        var returnJoinString = join(arrayLikeObject, '-');
+        eq(returnJoinString, '1-2');
+
+    }
+});
+
+
+</script> 
