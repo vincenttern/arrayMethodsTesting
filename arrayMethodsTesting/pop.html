@@ -29,8 +29,8 @@
 
 // Requirements:
 
-    // [TODO]: It should remove the last element from the array.
-    // [TODO]: It should return the last element that have been remove from the array.
+    // [TODO]: It should remove the last index in the array, and altar the length of the array..
+    // [TODO]: It should return the element of the last index that have been remove from the array.
     // [TODO]: If array is empty, it should return undefined.
 
 function pop(array) {
@@ -49,7 +49,7 @@ function pop(array) {
 }
 
 tests({
-    'It should remove the last element from the array.': function() {
+    'It should remove the last element from the array, and altar the length of the array.': function() {
         var returnPop = pop([1, 2]);
         eq(returnPop.length, 1);
     },

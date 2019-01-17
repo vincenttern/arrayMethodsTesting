@@ -1,0 +1,60 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [join] method:
+
+    // function shift(array) {
+    //   var undefinedArray = 'undefined';
+    //   if (array.length === 0) {
+    //     return undefinedArray;
+    //   } else {
+    //     var deletedIndexValue = array.splice(0, 1);
+    //   }
+
+    //   return deletedIndexValue;
+    // }
+
+    // shift([1, 2]);
+
+// Function Signature:
+    // shift(array)
+
+// Parameters:
+    // array
+
+// Return Value:
+    // The removed element from the array;
+    // undefined if the array is empty.
+
+// Requirements:
+
+    // [TODO]: It should remove the first index in the array, and altar the length of the array.
+    // [TODO]: It should return the element of the first index that have been remove from the array.
+    // [TODO]: If array is empty, it should return undefined.
+
+function shift(array) {
+    var undefinedArray = 'undefined';
+    if (array.length === 0) {
+        return undefinedArray;
+    } else {
+        var deletedIndexValue = array.splice(0, 1);
+    }
+
+    return deletedIndexValue;
+}
+
+tests({
+    'It should remove the first index in the array, and altar the length of the array.': function() {
+        var returnShift = shift([1, 2]);
+        eq(returnShift.length, 1);
+    },
+    'It should return the element of the first index that have been remove from the array.': function() {
+        var returnShift = shift([1, 2]);
+        eq(returnShift, 1);
+    },
+    'If array is empty, it should return undefined.': function() {
+        var returnShift = shift([]);
+        eq(returnShift, 'undefined');
+    }
+});
+</script>
