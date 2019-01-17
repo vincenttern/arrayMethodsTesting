@@ -3,20 +3,29 @@
 
 // Prototype implementation - Core logic to [join] method:
 
-    // function push(array, pushElement1, pushElement2) {
-    //     var arrayLength = array.length;
-    //     var counter = array.length;
-    //     for (var i = 0; i < arguments.length; i++) {
-    //         if (typeof arguments[i] === 'string' || typeof arguments[i] === 'number') {
-    //             array[arrayLength] = arguments[i];
-    //             counter++;
+    // function push(array) {
+    //     var argumentsLength = arguments.length;
+
+    //     // Check if there are more than 1 arguments.
+    //     if (argumentsLength > 1) {
+    //         var arrayLength = array.length;
+
+    //         // Start the loop at arguments[1].
+    //         for (var i = 0; i + 1 < argumentsLength; i++) {
+
+    //             // Check if the index of the array is empty, set to new value if it's empty.
+    //             if (typeof array[arrayLength + i] === 'undefined') {
+    //                 array[arrayLength + i] = arguments[i + 1];
+
+    //                 // Check if array is not an Array, if not we know it's an object and we can access the property length inside and increment it.
+    //                 if (array.constructor !== Array) {
+    //                     array.length++;
+    //                 }
+    //             }
     //         }
     //     }
-    //     return counter;
-
+    //     return array.length;
     // }
-
-    // push(['ball', 'can'], 1, 2);
 
 // Function Signature:
     // push(array, element1[, ...[, elementN]])
