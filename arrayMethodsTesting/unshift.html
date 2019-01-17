@@ -1,0 +1,64 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [unshift] method:
+
+    // function unshift(array) {
+    //   if (arguments.length > 1) {
+    //     for (var i = 0; i + 1 < arguments.length; i++) {
+    //       array.splice(0, 0, arguments[i + 1]);
+    //     }
+    //   }
+    //   return array.length
+    // }
+
+    // unshift([1, 2], 10, 11);
+
+// Function Signature:
+    // unshift(array, element1[, ...[, elementN]])
+
+// Parameters:
+    // array
+    // element1 - Element to add to the front of the array.
+    // elementN - Elements to add to the front of the array.
+
+// Return Value:
+    // The new length property of the array.
+
+// Requirements:
+
+    // [TODO]: It should return the length of the new array.
+    // [TODO]: It should insert element1 to the front of the array-like object.
+    // [TODO]: If more than one given element, it should insert each element to the front of the array-like object.
+
+function unshift(array) {
+
+    if (arguments.length > 1) {
+        
+        for (var i = 0; i + 1 < arguments.length; i++) {
+            array.splice(0, 0, arguments[i + 1]);
+        }
+    }
+    return array.length;
+}
+
+tests({
+    'It should return the length of the new array.': function() {
+        var returnUnshift = unshift([1, 2], 10);
+        eq(returnUnshift, 3);
+    },
+    'It should insert element1 to the front of the array-like object.': function() {
+        var originalArray = [1, 2];
+        var returnUnshift = unshift(originalArray, 10);
+        eq(originalArray[0], 10);
+    },
+    'If more than one given element, it should insert each element to the front of the array-like object.': function() {
+        var originalArray = [1, 2];
+        var returnUnshift = unshift(originalArray, 10, 11);
+        eq(returnUnshift, 4);
+        eq(originalArray[0], 11);
+        eq(originalArray[1], 10);
+    }
+});
+
+</script>
