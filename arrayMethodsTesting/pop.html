@@ -1,0 +1,65 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [join] method:
+
+    // function pop(array) {
+    //   var undefinedArray = 'undefined';
+    //   if (array.length === 0) {
+    //     return undefinedArray;
+    //   } else {
+    //     var deletedIndexValue = array.splice(array.length - 1);
+    //   }
+
+    //   return deletedIndexValue;
+    // }
+
+    // pop([1,2,3]);
+
+
+// Function Signature:
+    // pop(array)
+
+// Parameters:
+    // array
+
+// Return Value:
+    // The removed element from the array;
+    // undefined if the array is empty.
+
+// Requirements:
+
+    // [TODO]: It should remove the last element from the array.
+    // [TODO]: It should return the last element that have been remove from the array.
+    // [TODO]: If array is empty, it should return undefined.
+
+function pop(array) {
+     var undefinedArray = 'undefined';
+
+     // Return 'undefined' if array is empty.
+     if (array.length === 0) {
+         return undefinedArray;
+
+        // Removing the last index of the array and setting the value of it to a variable.
+     } else {
+         var deletedIndexValue = array.splice(array.length - 1);
+     }
+
+     return deletedIndexValue;
+}
+
+tests({
+    'It should remove the last element from the array.': function() {
+        var returnPop = pop([1, 2]);
+        eq(returnPop.length, 1);
+    },
+    'It should return the last element that have been remove from the array.': function() {
+        var returnPop = pop([1, 2]);
+        eq(returnPop, 2);
+    },
+    'If array is empty, it should return undefined.': function() {
+        var returnPop = pop([]);
+        eq(returnPop, 'undefined');
+    }
+});
+</script>
