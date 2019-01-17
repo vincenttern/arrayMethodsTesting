@@ -1,0 +1,84 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [join] method:
+
+    // function push(array, pushElement1, pushElement2) {
+    //     var arrayLength = array.length;
+    //     var counter = array.length;
+    //     for (var i = 0; i < arguments.length; i++) {
+    //         if (typeof arguments[i] === 'string' || typeof arguments[i] === 'number') {
+    //             array[arrayLength] = arguments[i];
+    //             counter++;
+    //         }
+    //     }
+    //     return counter;
+
+    // }
+
+    // push(['ball', 'can'], 1, 2);
+
+// Function Signature:
+    // push(array, element1[, ...[, elementN]])
+
+// Parameters:
+    // array
+    // element1 - first element to be added to the back of the array.
+    // elementN - nth element to be added to the back of the array.
+
+// Return Value:
+    // The new length of the array.
+
+// Requirements:
+
+    // [TODO]: If elements are provided, it should append them to the array.
+    // [TODO]: If elements are provided, and after appending them to the end of the array, it should also altar originalArray.
+    // [TODO]: If elements are provided, and are array-like objects, it should still add them to the end of the array.
+
+
+function push(array) {
+    var argumentsLength = arguments.length;
+
+    // Check if there are more than 1 arguments.
+    if (argumentsLength > 1) {
+        var arrayLength = array.length;
+
+        // Start the loop at arguments[1].
+        for (var i = 0; i + 1 < argumentsLength; i++) {
+
+            // Check if the index of the array is empty, set to new value if it's empty.
+            if (typeof array[arrayLength + i] === 'undefined') {
+                array[arrayLength + i] = arguments[i + 1];
+
+                // Check if array is not an Array, if not we know it's an object and we can access the property length inside and increment it.
+                if (array.constructor !== Array) {
+                    array.length++;
+                }
+            }
+        }
+    }
+    return array.length;
+}
+
+tests({
+    'If elements are provided, it should append them to the end of the array.': function() {
+        var originalArray = [1, 2];
+        var returnPush = push(originalArray, 3);
+        eq(returnPush, 3);
+    },
+    'If elements are provided, and after appending them to the end of the array, it should also altar originalArray.': function() {
+        var originalArray = [1, 2];
+        var returnPush = push(originalArray, 3);
+        eq(originalArray.length, 3);
+    },
+    'If elements are provided, and are array-like objects, it should still add them to the end of the array.': function() {
+        var arrayLikeObject = {
+            0: 1,
+            length: 1
+        }
+        var returnPush = push(arrayLikeObject, {});
+        eq(arrayLikeObject.length, 2);
+    }
+});
+
+</script>
