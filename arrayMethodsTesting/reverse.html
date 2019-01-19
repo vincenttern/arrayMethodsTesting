@@ -1,0 +1,68 @@
+<script src="..//simpleTest.js"></script>
+<script>
+
+// Prototype implementation - Core logic to [reverse] method:
+
+    // function reverse(array) {
+    //   var arrayLength = array.length;
+    //   var reverseArray = [];
+    //   for (var i = arrayLength - 1; i >= 0; i--) {
+    //     reverseArray.push(array[i]);
+    //   }
+    //   for (var i = 0; i < reverseArray.length; i++) {
+    //     array[i] = reverseArray[i];
+    //   }
+    //   return array;
+    // }
+
+    // var originalArray = [1, 2, 3, 4];
+    // reverse(originalArray);
+
+// Function Signature:
+    // reverse(array)
+
+// Parameters:
+    // array
+
+// Return Value:
+    // The reversed array.
+
+// Requirements:
+
+    // [TODO]: It should return reversed array.
+    // [TODO]: It should mutate the original array.
+
+function reverse(array) {
+    var arrayLength = array.length;
+    var reverseArray = [];
+
+    // Add reverse array to a variable.
+    for (var i = arrayLength - 1; i >= 0; i--) {
+        reverseArray.push(array[i]);
+    }
+
+    // Reverse the original array.
+    for (var i = 0; i < reverseArray.length; i++) {
+        array[i] = reverseArray[i];
+    }
+
+    return array;
+}
+
+tests({
+    'It should return reversed array.': function() {
+        var originalArray = [1, 2];
+        var returnReversedArray = reverse(originalArray);
+        eq(returnReversedArray[0], 2);
+        eq(returnReversedArray[1], 1);
+    },
+    'It should mutate the original array.': function() {
+        var originalArray = [1, 2];
+        var returnReversedArray = reverse(originalArray);
+        eq(originalArray[0], 2);
+        eq(originalArray[1], 1);
+    }
+});
+
+
+</script>
